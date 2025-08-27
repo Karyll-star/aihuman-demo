@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>AI 数字人 Demo</title>
+  <style>
+    body { margin: 0; display: flex; flex-direction: column; height: 100vh; }
+    #canvas { flex: 1; }
+    #chat { display: flex; padding: 10px; }
+    input { flex: 1; padding: 8px; font-size: 16px; }
+    button { padding: 8px 16px; }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <div id="chat">
+    <input id="input" placeholder="和数字人聊点什么..." />
+    <button onclick="sendMessage()">发送</button>
+  </div>
+  <div id="reply" style="padding:10px;font-family:system-ui,Arial,sans-serif;white-space:pre-wrap"></div>
+  <audio id="voice" autoplay></audio>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.156.1/build/three.module.js"
+      }
+    }
+  </script>
+  <script type="module" src="script.js"></script>
+</body>
+</html>
