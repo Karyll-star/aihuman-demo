@@ -4,21 +4,33 @@
   <meta charset="UTF-8">
   <title>AI 数字人 Demo</title>
   <style>
-    body { margin: 0; display: flex; flex-direction: column; height: 100vh; }
+    html, body { height: 100%; overflow: hidden; }
+    body { margin: 0; display: flex; flex-direction: column; height: 100vh; background: #0b1020; color: #eaeef7; }
     #canvas { flex: 1; }
-    #chat { display: flex; padding: 10px; }
-    input { flex: 1; padding: 8px; font-size: 16px; }
-    button { padding: 8px 16px; }
+    #chat { position: fixed; left: 0; right: 0; bottom: 0; display: flex; gap: 8px; padding: 12px; background: rgba(10,14,29,0.88); backdrop-filter: blur(6px); border-top: 1px solid rgba(255,255,255,0.06); }
+    #input { flex: 1; padding: 12px 14px; font-size: 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); outline: none; background: rgba(255,255,255,0.06); color: #eaeef7; }
+    #input::placeholder { color: #b8c1d8; }
+    #send { padding: 12px 18px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); background: linear-gradient(135deg,#5b8bff,#7a5bff); color: #fff; cursor: pointer; }
+    #send:hover { filter: brightness(1.05); }
+    #reply { display: none; }
   </style>
 </head>
 <body>
   <canvas id="canvas"></canvas>
   <div id="chat">
-    <input id="input" placeholder="和数字人聊点什么..." />
-    <button onclick="sendMessage()">发送</button>
+    <input id="input" placeholder="和数字人聊点什么..." onkeydown="if(event.key==='Enter'&&!event.isComposing&&!event.repeat){sendMessage()}" />
+    <button id="send" onclick="sendMessage()">发送</button>
   </div>
   <div id="reply" style="padding:10px;font-family:system-ui,Arial,sans-serif;white-space:pre-wrap"></div>
   <audio id="voice" autoplay></audio>
+  <!-- Gal 风对话框 -->
+  <div id="dialogue" style="position:fixed;left:0;right:0;bottom:80px;display:flex;justify-content:center;pointer-events:auto;">
+    <div id="dialogueBox" style="width:min(900px,92vw);background:rgba(15,18,38,0.82);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:14px 16px;box-shadow:0 10px 30px rgba(0,0,0,0.35);cursor:pointer;">
+      <div id="dialogueName" style="display:inline-block;padding:4px 10px;border-radius:8px;background:linear-gradient(135deg,#5b8bff,#7a5bff);color:#fff;font-weight:600;margin-bottom:8px;">小雅</div>
+      <div id="dialogueText" style="color:#eaeef7;line-height:1.6;min-height:44px;white-space:pre-wrap"></div>
+      <div id="dialogueHint" style="color:#b8c1d8;font-size:12px;margin-top:6px;opacity:0.8">点击对话框可跳过打字/快速显示</div>
+    </div>
+  </div>
   <script type="importmap">
     {
       "imports": {
